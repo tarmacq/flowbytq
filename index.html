@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flow | Secure P2P Transfer</title>
+    <title>Flow by tarmacqr</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
@@ -19,7 +19,6 @@
                     animation: { 
                         'blob': 'blob 10s infinite', 
                         'float': 'float 6s ease-in-out infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite'
                     },
                     keyframes: {
                         blob: {
@@ -40,8 +39,6 @@
         .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
         .gradient-text { background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .upload-area:hover { border-color: #6366f1; background-color: rgba(99, 102, 241, 0.02); }
-        .feature-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .feature-card:hover { transform: translateY(-5px); }
     </style>
 </head>
 <body class="text-slate-800 selection:bg-indigo-100 min-h-screen flex flex-col">
@@ -52,13 +49,10 @@
     </div>
 
     <nav class="relative z-50 w-full px-8 py-8 flex justify-between items-center max-w-7xl mx-auto">
-
-    </div>
-
-    <img src="https://www.tarmacq.com/Untitled (25).png" alt="Flow Logo" class="h-12 md:h-16 w-auto object-contain">
-
-    <span class="text-2xl font-extrabold tracking-tight text-slate-900"></span>
-</div>
+        <div class="flex items-center gap-4">
+            <img src="https://www.tarmacq.com/Untitled (25).png" alt="Flow Logo" class="h-10 md:h-12 w-auto object-contain">
+            <span class="text-2xl font-extrabold tracking-tight text-slate-900">Flow</span>
+        </div>
         <div id="status-badge" class="flex gap-2 items-center px-4 py-2 rounded-full bg-white border border-slate-100 text-[10px] font-bold tracking-widest uppercase text-slate-400 shadow-sm backdrop-blur-md">
             <div class="w-2 h-2 rounded-full bg-slate-300 animate-pulse" id="status-dot"></div>
             <span id="status-text">Connecting...</span>
@@ -66,183 +60,74 @@
     </nav>
 
     <main class="relative z-10 flex-grow container mx-auto px-6 py-12 flex flex-col items-center">
-        
         <div class="max-w-3xl mx-auto mb-16 text-center">
             <h1 class="text-5xl md:text-7xl font-[800] mb-6 tracking-tight text-slate-900 leading-[1.1]" id="hero-title">
-                Share files
-                <br>
-                 <span class="gradient-text">without limits.</span>
+                Share files <span class="gradient-text">without limits.</span>
             </h1>
-            <p class="text-lg text-slate-500 max-w-xl mx-auto leading-relaxed" id="hero-desc">
-                Direct browser-to-browser encrypted transfers. No cloud, no storage limits, no privacy concerns.
-            </p>
+            <p class="text-lg text-slate-500 max-w-xl mx-auto" id="hero-desc">Direct browser-to-browser encrypted transfers.</p>
         </div>
 
         <div class="w-full max-w-xl relative group z-20 mb-24">
             <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-[2.5rem] blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
-            
-            <div class="relative glass-panel rounded-[2rem] p-6 min-h-[460px] flex flex-col">
+            <div class="relative glass-panel rounded-[2rem] p-6 min-h-[400px] flex flex-col">
                 
                 <div id="view-upload" class="flex-grow border-2 border-dashed border-slate-200 rounded-[1.5rem] p-10 flex flex-col items-center justify-center bg-white/40 upload-area transition-all cursor-pointer" onclick="document.getElementById('file-input').click()">
                     <input type="file" id="file-input" class="hidden">
-                    <div class="w-24 h-24 bg-white rounded-3xl flex items-center justify-center mb-8 shadow-2xl shadow-indigo-100 text-4xl text-indigo-500 group-hover:scale-110 transition-transform duration-500">
+                    <div class="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-xl text-3xl text-indigo-500">
                         <i class="fa-solid fa-plus"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Drop it like it's hot</h3>
-                    <p class="text-slate-400 mb-8 text-sm font-medium">Any size, any format. Straight to the recipient.</p>
-                    <span class="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-indigo-600 transition shadow-xl shadow-slate-200">Select File</span>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Ready to send?</h3>
+                    <button class="px-8 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-indigo-600 transition shadow-lg">Select File</button>
                 </div>
 
                 <div id="view-link" class="hidden p-8 flex flex-col items-center text-center">
-                    <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 text-3xl text-green-500">
-                        <i class="fa-solid fa-check-circle"></i>
+                    <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mb-6 text-2xl text-green-500">
+                        <i class="fa-solid fa-link"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Link is Ready</h3>
-                    <p class="text-slate-500 text-sm mb-8 leading-relaxed">Keep this window open! The transfer is peer-to-peer, meaning it travels directly from your device to theirs.</p>
-                    
-                    <div class="w-full bg-slate-50 p-2.5 rounded-2xl border border-slate-100 flex gap-2 mb-6">
-                        <input id="share-link" readonly type="text" class="w-full bg-transparent border-none focus:ring-0 text-slate-600 text-sm font-medium px-4" value="...">
-                        <button onclick="copyLink()" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-indigo-700 transition whitespace-nowrap">Copy Link</button>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Link Generated</h3>
+                    <div class="w-full bg-slate-50 p-2 rounded-xl border border-slate-100 flex gap-2 mb-4">
+                        <input id="share-link" readonly type="text" class="w-full bg-transparent border-none focus:ring-0 text-slate-600 text-xs font-mono px-2" value="...">
+                        <button onclick="copyLink()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold text-xs hover:bg-indigo-700 transition">Copy</button>
                     </div>
+                    <p class="text-xs text-slate-400 font-medium">Keep this tab open until the transfer finishes.</p>
                 </div>
 
                 <div id="view-download" class="hidden p-8 flex flex-col items-center text-center">
-                    <div class="w-20 h-20 bg-indigo-50 rounded-3xl flex items-center justify-center mb-6 text-3xl text-indigo-600 animate-float">
-                        <i class="fa-solid fa-file-import"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-1" id="dl-filename">File Found</h3>
-                    <p class="text-slate-500 text-sm mb-10" id="dl-size">Waiting for connection...</p>
-                    <button id="btn-download" disabled onclick="requestDownload()" class="px-10 py-5 bg-slate-200 text-slate-400 rounded-2xl font-bold cursor-not-allowed transition w-full shadow-lg">
-                        Start Receiving
-                    </button>
+                    <h3 class="text-xl font-bold text-slate-800 mb-1" id="dl-filename">File Found</h3>
+                    <p class="text-slate-500 text-sm mb-10" id="dl-size">Waiting...</p>
+                    <button id="btn-download" disabled onclick="requestDownload()" class="px-10 py-4 bg-indigo-600 text-white rounded-xl font-bold w-full shadow-lg">Start Download</button>
                 </div>
 
                 <div id="view-progress" class="hidden p-10 flex flex-col items-center">
                     <div class="w-full flex justify-between items-end mb-4">
-                        <h3 class="text-lg font-bold text-slate-800" id="progress-status">Transmitting...</h3>
-                        <p class="text-sm font-mono text-indigo-600 font-bold" id="progress-text">0%</p>
+                        <h3 class="text-sm font-bold text-slate-800" id="progress-status">Transmitting...</h3>
+                        <p class="text-xs font-mono text-indigo-600 font-bold" id="progress-text">0%</p>
                     </div>
-                    <div class="w-full h-5 bg-slate-100 rounded-full overflow-hidden mb-6 p-1">
-                        <div id="progress-bar" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full transition-all duration-300 shadow-sm" style="width: 0%"></div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 w-full">
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            <p class="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Speed</p>
-                            <p class="font-bold text-slate-700" id="stats-speed">-- MB/s</p>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            <p class="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Remaining</p>
-                            <p class="font-bold text-slate-700" id="stats-time">--s</p>
-                        </div>
+                    <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-6">
+                        <div id="progress-bar" class="h-full bg-indigo-500 transition-all duration-300" style="width: 0%"></div>
                     </div>
                 </div>
-
-            </div>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-8 w-full max-w-6xl">
-            <div class="feature-card glass-panel p-8 rounded-[2rem]">
-                <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 mb-6">
-                    <i class="fa-solid fa-shield-halved text-xl"></i>
-                </div>
-                <h4 class="font-bold text-lg mb-2">Private by Design</h4>
-                <p class="text-slate-500 text-sm leading-relaxed">Files never touch our servers. Your data stays between you and your recipient.</p>
-            </div>
-            <div class="feature-card glass-panel p-8 rounded-[2rem]">
-                <div class="w-12 h-12 bg-fuchsia-50 rounded-xl flex items-center justify-center text-fuchsia-600 mb-6">
-                    <i class="fa-solid fa-infinity text-xl"></i>
-                </div>
-                <h4 class="font-bold text-lg mb-2">No Limits</h4>
-                <p class="text-slate-500 text-sm leading-relaxed">Send 10GB or 100GB. Since it's peer-to-peer, we don't cap your file sizes.</p>
-            </div>
-            <div class="feature-card glass-panel p-8 rounded-[2rem]">
-                <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600 mb-6">
-                    <i class="fa-solid fa-bolt text-xl"></i>
-                </div>
-                <h4 class="font-bold text-lg mb-2">Full Speed</h4>
-                <p class="text-slate-500 text-sm leading-relaxed">Transfer files at the maximum speed your internet connection allows.</p>
             </div>
         </div>
     </main>
 
-   <footer class="relative z-10 w-full pt-20 pb-10 border-t border-slate-100 bg-white/80 backdrop-blur-md mt-20">
-    <div class="max-w-7xl mx-auto px-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            
-            <div class="col-span-1 md:col-span-1">
-                <div class="flex items-center gap-3 mb-6">
-                    <img src="https://www.tarmacq.com/Untitled (25).png" alt="Flow" class="h-8 w-auto object-contain">
-                    <span class="text-xl font-extrabold tracking-tight text-slate-900"></span>
-                </div>
-                <p class="text-slate-500 text-sm leading-relaxed mb-6">
-                    Moving big ideas without breaking the flow. Secure, peer-to-peer file sharing for the modern web.
-                </p>
-                <div class="flex gap-4">
-                    <a href="#" class="w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-indigo-600 hover:text-white transition-all"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" class="w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-indigo-600 hover:text-white transition-all"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-indigo-600 hover:text-white transition-all"><i class="fa-brands fa-discord"></i></a>
-                </div>
-            </div>
-
-           
-            <div>
-                <h5 class="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Company</h5>
-                <ul class="space-y-4 text-sm text-slate-500 font-medium">
-                    <li><a href="https://www.tarmacq.com" class="hover:text-indigo-600 transition">About Tarmacq</a></li>
-                    <li><a href="https://www.tarmacq.com/pp" class="hover:text-indigo-600 transition">Privacy Policy</a></li>
-                    <li><a href="https://www.tarmacq.com/terms" class="hover:text-indigo-600 transition">Terms of Service</a></li>
-                    <li><a href="mailto:contact@tarmacq.com" class="hover:text-indigo-600 transition">Contact</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h5 class="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Stay Updated</h5>
-                <p class="text-sm text-slate-500 mb-4">Get notified about new P2P features.</p>
-                <div class="relative">
-                    <input type="email" placeholder="Email address" class="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition">
-                    <button class="absolute right-2 top-1.5 bg-slate-900 text-white p-1.5 rounded-lg hover:bg-indigo-600 transition">
-                        <i class="fa-solid fa-arrow-right px-1"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="pt-8 border-t border-slate-100 flex flex-col md:row justify-between items-center gap-4">
-            <p class="text-xs font-medium text-slate-400">
-                &copy; 2026 tarmacq Std. Turning Lines of Code into Your Next Business Milestone.
-            </p>
-            <div class="flex items-center gap-6">
-                <span class="flex items-center gap-2 text-[10px] font-bold text-green-500 uppercase tracking-tighter">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> 
-                    All systems operational
-                </span>
-            </div>
-        </div>
-    </div>
-</footer>
     <script>
-        // --- PEER CONFIG ---
         const peer = new Peer({ debug: 1 });
         let conn = null, myId = null, selectedFile = null, fileMeta = null;
         let receivedChunks = [];
         let bytesReceived = 0;
         let startTime = 0;
 
-        const views = ['upload', 'link', 'download', 'progress'];
         const showView = (id) => {
-            views.forEach(v => document.getElementById('view-' + v).classList.add('hidden'));
+            ['upload', 'link', 'download', 'progress'].forEach(v => document.getElementById('view-' + v).classList.add('hidden'));
             document.getElementById('view-' + id).classList.remove('hidden');
         };
 
         function parseUrl() {
-            const path = window.location.pathname; 
-            const segments = path.split('/').filter(s => s.length > 0);
+            const segments = window.location.pathname.split('/').filter(s => s.length > 0);
             const sendIdx = segments.indexOf('send');
             if (sendIdx !== -1 && segments[sendIdx + 1]) {
-                return {
-                    hostId: segments[sendIdx + 1],
-                    fileName: decodeURIComponent(segments[sendIdx + 2] || "File")
-                };
+                return { hostId: segments[sendIdx + 1], fileName: decodeURIComponent(segments[sendIdx + 2] || "File") };
             }
             return null;
         }
@@ -255,66 +140,50 @@
             else { initSender(); }
         });
 
-        // --- SENDER LOGIC ---
         function initSender() {
             const input = document.getElementById('file-input');
             input.onchange = (e) => { if(e.target.files[0]) prepareFile(e.target.files[0]); };
-
-            // Drag & Drop
-            const dz = document.getElementById('view-upload');
-            dz.ondragover = (e) => { e.preventDefault(); dz.classList.add('border-indigo-500', 'bg-indigo-50/50'); };
-            dz.ondragleave = () => dz.classList.remove('border-indigo-500', 'bg-indigo-50/50');
-            dz.ondrop = (e) => {
-                e.preventDefault();
-                dz.classList.remove('border-indigo-500', 'bg-indigo-50/50');
-                if(e.dataTransfer.files[0]) prepareFile(e.dataTransfer.files[0]);
-            };
-
-            peer.on('connection', (connection) => {
-                conn = connection;
+            peer.on('connection', (c) => {
+                conn = c;
                 updateStatus('connected', 'PEER CONNECTED');
                 conn.on('open', () => {
                     conn.send({ type: 'meta', name: selectedFile.name, size: selectedFile.size, mime: selectedFile.type });
                 });
-                conn.on('data', (data) => {
-                    if (data === 'start-transfer') startChunkedUpload();
-                });
+                conn.on('data', (data) => { if (data === 'start-transfer') startChunkedUpload(); });
             });
         }
 
+        // --- THE FIXED FUNCTION ---
         function prepareFile(file) {
             selectedFile = file;
             showView('link');
             const cleanName = encodeURIComponent(file.name.replace(/\s+/g, '-'));
-            const shareUrl = `${window.location.origin}/flow/send/${myId}/${cleanName}`;
+            
+            // Hardcoding your domain here ensures it always generates the correct link
+            const shareUrl = `https://l.tarmacq.com/flow/send/${myId}/${cleanName}`;
+            
             document.getElementById('share-link').value = shareUrl;
+            
+            // This updates the browser's address bar without refreshing
             window.history.pushState({}, "", `/flow/send/${myId}/${cleanName}`);
         }
 
         function startChunkedUpload() {
             showView('progress');
-            document.getElementById('progress-status').innerText = "Sending...";
             startTime = Date.now();
-            
-            const chunkSize = 64 * 1024; // 64KB chunks for better speed
+            const chunkSize = 64 * 1024;
             let offset = 0;
-
             const readNext = () => {
                 const reader = new FileReader();
                 const slice = selectedFile.slice(offset, offset + chunkSize);
                 reader.onload = (e) => {
                     conn.send({ type: 'chunk', data: e.target.result, offset: offset });
                     offset += e.target.result.byteLength;
-                    
-                    const pct = Math.floor((offset / selectedFile.size) * 100);
-                    updateProgressUI(offset, selectedFile.size, pct);
-
-                    if (offset < selectedFile.size) {
-                        setTimeout(readNext, 1);
-                    } else {
+                    updateProgressUI(offset, selectedFile.size, Math.floor((offset / selectedFile.size) * 100));
+                    if (offset < selectedFile.size) setTimeout(readNext, 1);
+                    else {
                         conn.send({ type: 'done' });
-                        document.getElementById('progress-status').innerText = "Sent Successfully!";
-                        updateStatus('online', 'FINISHED');
+                        document.getElementById('progress-status').innerText = "Complete!";
                     }
                 };
                 reader.readAsArrayBuffer(slice);
@@ -322,82 +191,45 @@
             readNext();
         }
 
-        // --- RECEIVER LOGIC ---
         function initReceiver(hostId, name) {
             showView('download');
-            document.getElementById('hero-title').innerHTML = "Incoming <span class='gradient-text'>Flow</span>";
             document.getElementById('dl-filename').innerText = name;
-            
             conn = peer.connect(hostId);
-            conn.on('open', () => {
-                updateStatus('connected', 'STABLE CONNECTION');
-            });
-
             conn.on('data', (data) => {
                 if (data.type === 'meta') {
                     fileMeta = data;
-                    document.getElementById('dl-filename').innerText = data.name;
-                    document.getElementById('dl-size').innerText = (data.size / (1024*1024)).toFixed(2) + " MB • Ready to stream";
-                    const btn = document.getElementById('btn-download');
-                    btn.disabled = false;
-                    btn.className = "px-10 py-5 bg-indigo-600 text-white rounded-2xl font-bold hover:scale-[1.02] transition shadow-xl w-full";
+                    document.getElementById('dl-size').innerText = (data.size / (1024*1024)).toFixed(2) + " MB";
+                    document.getElementById('btn-download').disabled = false;
                 }
                 if (data.type === 'chunk') {
                     if (bytesReceived === 0) startTime = Date.now();
                     receivedChunks.push(data.data);
                     bytesReceived += data.data.byteLength;
-                    const pct = Math.floor((bytesReceived / fileMeta.size) * 100);
-                    updateProgressUI(bytesReceived, fileMeta.size, pct);
+                    updateProgressUI(bytesReceived, fileMeta.size, Math.floor((bytesReceived / fileMeta.size) * 100));
                 }
                 if (data.type === 'done') {
                     const blob = new Blob(receivedChunks, { type: fileMeta.mime });
-                    const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
-                    a.href = url;
+                    a.href = URL.createObjectURL(blob);
                     a.download = fileMeta.name;
                     a.click();
-                    document.getElementById('progress-status').innerText = "Received!";
-                    updateStatus('online', 'DOWNLOADED');
                 }
             });
         }
 
-        function requestDownload() {
-            showView('progress');
-            document.getElementById('progress-status').innerText = "Receiving...";
-            conn.send('start-transfer');
-        }
-
-        // --- UI HELPERS ---
+        function requestDownload() { showView('progress'); conn.send('start-transfer'); }
         function updateProgressUI(current, total, pct) {
             document.getElementById('progress-bar').style.width = pct + "%";
             document.getElementById('progress-text').innerText = pct + "%";
-            
-            const elapsed = (Date.now() - startTime) / 1000;
-            const speed = current / elapsed; // bytes per sec
-            const remaining = (total - current) / speed;
-
-            document.getElementById('stats-speed').innerText = (speed / (1024 * 1024)).toFixed(1) + " MB/s";
-            document.getElementById('stats-time').innerText = remaining > 0 ? Math.ceil(remaining) + "s" : "0s";
         }
-
         function updateStatus(type, text) {
-            const dot = document.getElementById('status-dot');
-            dot.className = "w-2 h-2 rounded-full " + (type === 'online' ? 'bg-green-500' : 'bg-indigo-500');
+            document.getElementById('status-dot').className = "w-2 h-2 rounded-full " + (type === 'online' ? 'bg-green-500' : 'bg-indigo-500');
             document.getElementById('status-text').innerText = text;
         }
-
         function copyLink() {
             const input = document.getElementById('share-link');
             input.select();
             document.execCommand('copy');
-            const btn = document.querySelector('button[onclick="copyLink()"]');
-            btn.innerText = "Copied!";
-            btn.classList.replace('bg-indigo-600', 'bg-green-600');
-            setTimeout(() => {
-                btn.innerText = "Copy Link";
-                btn.classList.replace('bg-green-600', 'bg-indigo-600');
-            }, 2000);
         }
     </script>
 </body>
