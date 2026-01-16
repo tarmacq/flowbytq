@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flow | Secure P2P Transfer</title>
+    <title>Flow by tarmacq</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
@@ -58,6 +58,24 @@
     <img src="https://www.tarmacq.com/Untitled (25).png" alt="Flow Logo" class="h-12 md:h-16 w-auto object-contain">
 
     <span class="text-2xl font-extrabold tracking-tight text-slate-900"></span>
+</div>
+<div id="transfer-warning" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 opacity-0 translate-y-10 pointer-events-none w-[90%] max-w-md">
+    <div class="bg-slate-900 border border-indigo-500/30 p-4 rounded-2xl shadow-2xl flex items-center gap-4 backdrop-blur-xl">
+        <div class="relative flex-shrink-0">
+            <div class="w-10 h-10 bg-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-400">
+                <i class="fa-solid fa- Woodrow fa-ghost animate-pulse"></i>
+                <i class="fa-solid fa-tower-broadcast"></i>
+            </div>
+            <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+            </span>
+        </div>
+        <div class="flex-grow">
+            <p class="text-white font-bold text-sm tracking-wide">Live P2P Session Active</p>
+            <p class="text-slate-400 text-xs">Don't close this tab or the transfer will stop.</p>
+        </div>
+    </div>
 </div>
         <div id="status-badge" class="flex gap-2 items-center px-4 py-2 rounded-full bg-white border border-slate-100 text-[10px] font-bold tracking-widest uppercase text-slate-400 shadow-sm backdrop-blur-md">
             <div class="w-2 h-2 rounded-full bg-slate-300 animate-pulse" id="status-dot"></div>
@@ -311,11 +329,16 @@
 
                     if (offset < selectedFile.size) {
                         setTimeout(readNext, 1);
-                    } else {
-                        conn.send({ type: 'done' });
-                        document.getElementById('progress-status').innerText = "Sent Successfully!";
-                        updateStatus('online', 'FINISHED');
-                    }
+                    // Inside startChunkedUpload(), find the "done" block:
+} else {
+    conn.send({ type: 'done' });
+    document.getElementById('progress-status').innerText = "Sent Successfully!";
+    updateStatus('online', 'FINISHED');
+    
+    // ADD THESE LINES:
+    document.getElementById('transfer-warning').classList.add('opacity-0', 'translate-y-10');
+    window.onbeforeunload = null; // Remove the browser popup safeguard
+}
                 };
                 reader.readAsArrayBuffer(slice);
             };
@@ -387,18 +410,32 @@
             document.getElementById('status-text').innerText = text;
         }
 
-        function copyLink() {
-            const input = document.getElementById('share-link');
-            input.select();
-            document.execCommand('copy');
-            const btn = document.querySelector('button[onclick="copyLink()"]');
-            btn.innerText = "Copied!";
-            btn.classList.replace('bg-indigo-600', 'bg-green-600');
-            setTimeout(() => {
-                btn.innerText = "Copy Link";
-                btn.classList.replace('bg-green-600', 'bg-indigo-600');
-            }, 2000);
-        }
+       function copyLink() {
+    // 1. Copy to clipboard
+    const input = document.getElementById('share-link');
+    input.select();
+    document.execCommand('copy');
+    
+    // 2. Update Button UI
+    const btn = document.querySelector('button[onclick="copyLink()"]');
+    btn.innerText = "Copied!";
+    btn.classList.replace('bg-indigo-600', 'bg-green-600');
+    
+    // 3. Show the "Don't Close" Warning
+    const warning = document.getElementById('transfer-warning');
+    warning.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+
+    // 4. Reset button text after 2 seconds
+    setTimeout(() => {
+        btn.innerText = "Copy Link";
+        btn.classList.replace('bg-green-600', 'bg-indigo-600');
+    }, 2000);
+
+    // 5. Active the browser's "Are you sure you want to leave?" safeguard
+    window.onbeforeunload = function() {
+        return "Transfer in progress. If you close this tab, the recipient won't receive the file.";
+    };
+}
     </script>
 </body>
 </html>
